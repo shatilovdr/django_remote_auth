@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 # Remote authentication
-SITE_ID=2
+SITE_ID = 1
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -47,18 +47,36 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
 ]
 
 # Remote authentication
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
+        'APP': {
+            'client_id': os.environ.get("GOOGLE_CLIENT_ID"),
+            'secret': os.environ.get("GOOGLE_CLIENT_SECRET"),
+            'key': '',
+        },
         'SCOPE': [
             'profile',
-            'email'
+            'email',
         ],
-        'AUTH_PARAMS': {'access_type': 'online'}
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+    },
+    'github': {
+        'APP': {
+            'client_id': os.environ.get("GITHUB_CLIENT_ID"),
+            'secret': os.environ.get("GITHUB_CLIENT_SECRET"),
+        },
+        # 'AUTH_PARAMS': {
+        #     'prompt': 'consent',
+        # },
     }
 }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -158,3 +176,5 @@ AUTHENTICATION_BACKENDS = [
 # Remote authentication
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
