@@ -8,6 +8,24 @@ networks:
     driver: bridge
 
 services:
+
+  tr_front:
+    build: srcs/frontend
+    image: tr_front
+    container_name: tr_front
+    volumes:
+        - ./srcs/frontend:/app
+    environment:
+      - NGINX_PORT=${NGINX_PORT}
+      - DJANGO_PORT=${DJANGO_PORT}
+      - TZ=UTC
+    networks:
+      tr_network:
+        aliases:
+          - tr-front
+    ports:
+      - "8443:8443"
+
   tr_back:
     build: srcs/backend
     image: tr_back
@@ -28,6 +46,8 @@ services:
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
       - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - FORTYTWO_CLIENT_ID=${FORTYTWO_CLIENT_ID}
+      - FORTYTWO_CLIENT_SECRET=${FORTYTWO_CLIENT_SECRET}
       - TZ=UTC
     networks:
       tr_network:

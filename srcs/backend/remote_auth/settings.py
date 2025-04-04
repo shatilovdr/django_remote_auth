@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+    'fortytwo',
 ]
 
 # Remote authentication
@@ -74,7 +75,14 @@ SOCIALACCOUNT_PROVIDERS = {
         # 'AUTH_PARAMS': {
         #     'prompt': 'consent',
         # },
-    }
+    },
+    'fortytwo': {
+        'APP': {
+            'client_id': os.environ.get("FORTYTWO_CLIENT_ID"),
+            'secret': os.environ.get("FORTYTWO_CLIENT_SECRET"),
+            'key': ''
+        }
+    },
 }
 
 
@@ -178,3 +186,9 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1:8443']
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
